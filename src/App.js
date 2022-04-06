@@ -7,6 +7,7 @@ import Women from "./routes/women/women.component";
 import Men from "./routes/men/men.component";
 import Kids from "./routes/kids/kids.component";
 import Description from "./routes/description/description.component";
+import Cart from "./routes/cart/cart.component";
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
           <Route path="men" element={<Men />} />
           <Route path="kids" element={<Kids />} />
           <Route path="description" element={<Description />} />
+          <Route path="cart" element={<Cart />} />
         </Route>
       </Routes>
     );

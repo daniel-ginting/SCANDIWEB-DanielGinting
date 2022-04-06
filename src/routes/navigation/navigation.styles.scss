@@ -28,6 +28,10 @@
             display: block;
             padding: 2rem 1rem;
         }
+
+        li:hover {
+            opacity: 0.5;
+        }
     }
 
     .logo {
@@ -42,25 +46,6 @@
             float: right;
 
             display: flex;
-
-            .currency {
-                flex: 1;
-
-                font-family: 'Raleway';
-                font-weight: 500;
-                font-size: 18px;
-
-                display: flex;
-
-                .dropdown {
-                    height: 100%;
-                    margin-left: 10px;
-                }
-            }
-
-            .cart {
-                flex: 1;
-            }
         }
     }
 }

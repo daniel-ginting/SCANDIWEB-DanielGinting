@@ -2,8 +2,9 @@ import React, { Component, Fragment } from "react";
 import { Outlet, Link } from "react-router-dom";
 
 import { ReactComponent as Logo } from "../../assets/logo.svg";
-import { ReactComponent as Cart } from "../../assets/cart.svg";
-import { ReactComponent as Dropdown } from "../../assets/dropdown.svg";
+
+import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
+import Currency from "../../components/currency/currency.component";
 
 import "./navigation.styles.scss";
 
@@ -53,11 +54,8 @@ class Navigation extends Component {
           </Link>
           <div className="actions">
             <div className="actions-wrapper">
-              <div className="currency">
-                $
-                <Dropdown className="dropdown" />
-              </div>
-              <Cart className="cart" />
+              <Currency/>
+              <CartDropdown className="cart-icon" />
             </div>
           </div>
         </header>
