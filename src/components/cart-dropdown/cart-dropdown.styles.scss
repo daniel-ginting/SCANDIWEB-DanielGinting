@@ -40,72 +40,128 @@
             }
         }
 
-        .mini-cart-item {
-            width: 100%;
-            display: flex;
+        .mini-cart-items {
+            max-height: 500px;
+            overflow-y: scroll;
 
-            justify-content: space-between;
-
-            margin-bottom: 40px;
-
-            .mini-cart-item-box-1 {
-                flex: 1;
-
-                h4 {
-                    width: 136px;
-                    height: 52px;
-                    margin-bottom: 8px;
-                }
-
-                p {
-                    margin-bottom: 30px;
-                }
-
-                button {
-                    border: 1px solid #1D1F22;
-                    font-size: 14px;
-                    font-weight: 400;
-                    width: 24px;
-                    height: 24px;
-                    margin-right: 8px;
-                }
-            }
-
-            .mini-cart-item-box-2 {
-                width: 139px;
+            .mini-cart-item {
+                width: 100%;
                 display: flex;
 
-                .mini-cart-item-amount {
-                    display: flex;
-                    // flex: 1;
+                justify-content: space-between;
 
-                    justify-content: space-between;
-                    flex-direction: column;
+                margin-bottom: 40px;
 
-                    margin-right: 10px;
+                padding-bottom: 40px;
 
-                    button {
-                        width: 24px;
-                        height: 24px;
-                        border: 1px solid #1D1F22;
+                border-bottom: 1px solid black;
+
+                .mini-cart-item-box-1 {
+                    flex: 1;
+
+                    h4 {
+                        width: 136px;
+                        height: 52px;
+                        margin-bottom: 8px;
                     }
 
                     p {
-                        width: 100%;
-                        text-align: center;
-                        font-weight: 500;
-                        font-size: 16px;
+                        margin-bottom: 30px;
+                    }
+
+                    .attribute-title {
+                        font-family: "Roboto Condensed";
+
+                        margin-bottom: 5px;
+                        height: auto;
+                    }
+
+                    .button-non {
+                        border: 1px solid #1D1F22;
+                        font-size: 14px;
+                        font-weight: 400;
+                        width: auto;
+                        height: 24px;
+                        margin-right: 8px;
+                        margin-bottom: 8px;
+                    }
+
+                    .button-selected {
+                        border: 1px solid #1D1F22;
+                        background-color: #1D1F22;
+                        color: #fff;
+                        font-size: 14px;
+                        font-weight: 400;
+                        width: auto;
+                        height: 24px;
+                        margin-right: 8px;
+                        margin-bottom: 8px;
+                    }
+
+                    .swatch-non {
+                        border: 0.5px solid #1D1F22;
+                        font-size: 14px;
+                        font-weight: 400;
+                        width: 24px;
+                        height: 24px;
+                        margin-right: 8px;
+                        margin-bottom: 8px;
+                    }
+
+                    .swatch-selected {
+                        border: 0.5px solid #1D1F22;
+                        background-color: #1D1F22;
+                        color: #fff;
+                        font-size: 14px;
+                        font-weight: 400;
+                        width: 24px;
+                        height: 24px;
+                        margin-right: 8px;
+                        margin-bottom: 8px;
+                        box-shadow: 0 0 0 4px #20ACE9;
 
                     }
                 }
 
-                img {
-                    width: 105px;
-                    height: 137px;
+                .mini-cart-item-box-2 {
+                    width: 139px;
+                    display: flex;
+
+                    .mini-cart-item-amount {
+                        display: flex;
+
+                        justify-content: space-between;
+                        flex-direction: column;
+
+                        margin-right: 10px;
+
+                        button {
+                            width: 24px;
+                            height: 24px;
+                            border: 1px solid #1D1F22;
+                        }
+
+                        p {
+                            width: 100%;
+                            text-align: center;
+                            font-weight: 500;
+                            font-size: 16px;
+
+                        }
+                    }
+
+                    img {
+                        width: 105px;
+                        height: 137px;
+                        margin: auto;
+
+                        object-fit: contain;
+                        object-position: center center;
+                    }
                 }
+
+
             }
-
-
         }
 
         .mini-cart-total {
@@ -142,11 +198,6 @@
     }
 
 }
-
-/* Hide the dropdown's content by default */
-
-
-/* Show the content when hover on the container */
 
 .dropdown:hover .dropdown__content {
 

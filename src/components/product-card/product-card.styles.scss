@@ -4,29 +4,80 @@
     margin: 50px 20px;
     padding: 16px;
 
+    cursor: pointer;
+
 
     .product-image {
         width: 100%;
         height: 330px;
-        background-color: blue;
+        object-fit: contain;
+        object-position: center top;
     }
 
     .product-circle {
         background-color: #5ECE7B;
         position: absolute;
+        margin-top: 300px;
         margin-left: 290px;
-        margin-top: -30px;
-        
+
         border-radius: 50%;
         width: 52px;
         height: 52px;
 
         border: none;
 
+        z-index: 100;
+
         // Centering
         align-items: center;
         display: flex;
         justify-content: center;
+
+        cursor: pointer;
+
+        color: white;
+        font-size: 18px;
+    }
+
+    .product-quantity {
+        background-color: #5ECE7B;
+        position: absolute;
+        margin-top: 300px;
+        margin-left: 290px;
+
+        border-radius: 50%;
+        width: 52px;
+        height: 52px;
+
+        border: none;
+
+        z-index: 100;
+
+        // Centering
+        align-items: center;
+        display: flex;
+        justify-content: center;
+
+        color: white;
+        font-size: 18px;
+    }
+
+    .card-add {
+        position: absolute;
+        margin-left: 340px;
+        margin-top: 300px;
+
+        cursor: pointer;
+
+    }
+
+    .card-reduce {
+        position: absolute;
+        margin-left: 268px;
+        margin-top: 300px;
+
+        cursor: pointer;
+
     }
 
     .product-text {
@@ -59,5 +110,118 @@
 .product-card:hover {
     // filter: drop-shadow(0px 4px 35px rgba(168, 172, 176, 0.19));
     box-shadow: 0px 4px 35px 0px #A8ACB030;
-;
+    ;
+}
+
+.product-card-disabled {
+    height: 412px;
+    width: 354px;
+    margin: 50px 20px;
+    padding: 16px;
+
+    opacity: 0.4;
+    cursor: default;
+
+    img {
+        width: 100%;
+        height: 330px;
+        object-fit: contain;
+        object-position: center top;
+    }
+
+    .out-of-stock {
+        font-family: 'Raleway';
+        font-weight: 500;
+        font-size: 30px;
+        position: absolute;
+        color: #8D8F9A;
+
+        margin-left: 70px;
+        margin-top: -169px;
+    }
+
+    .product-circle {
+        background-color: #5ECE7B;
+        position: absolute;
+        margin-top: 300px;
+        margin-left: 290px;
+
+        border-radius: 50%;
+        width: 52px;
+        height: 52px;
+
+        border: none;
+
+        z-index: 100;
+
+        // Centering
+        align-items: center;
+        display: flex;
+        justify-content: center;
+
+        color: white;
+        font-size: 18px;
+    }
+
+    .product-quantity {
+        background-color: #5ECE7B;
+        position: absolute;
+        margin-top: 300px;
+        margin-left: 290px;
+
+        border-radius: 50%;
+        width: 52px;
+        height: 52px;
+
+        border: none;
+
+        z-index: 100;
+
+        // Centering
+        align-items: center;
+        display: flex;
+        justify-content: center;
+
+        color: white;
+        font-size: 18px;
+    }
+
+    .card-add {
+        position: absolute;
+        margin-left: 340px;
+        margin-top: 300px;
+
+    }
+
+    .card-reduce {
+        position: absolute;
+        margin-left: 268px;
+        margin-top: 300px;
+    }
+
+    .product-text {
+        flex: 1;
+        margin-top: 24px;
+        width: 100%;
+        height: 58px;
+        display: flex;
+        flex-direction: column;
+
+        h2 {
+            flex: 1;
+            margin: 0;
+            font-family: 'Raleway';
+            font-weight: 300;
+            font-size: 18px;
+        }
+
+        p {
+            flex: 1;
+            margin: 0;
+            line-height: 150%;
+            font-family: 'Raleway';
+            font-weight: 500;
+            font-size: 18px;
+        }
+    }
 }

@@ -6,60 +6,69 @@ import { ReactComponent as Logo } from "../../assets/logo.svg";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 import Currency from "../../components/currency/currency.component";
 
+import DataContext from "../../contexts/data.context";
+
 import "./navigation.styles.scss";
 
 class Navigation extends Component {
+  static contextType = DataContext;
   constructor() {
     super();
     this.state = {
-      active: "women",
+      current: "",
     };
   }
+  componentDidMount() {
+    let arr = window.location.pathname.split("");
+    arr.shift();
+    let str = arr.join("");
+    if (str === "") {
+      this.setState({ current: "all" });
+    } else {
+      this.setState({ current: str });
+    }
+  }
   render() {
-    const { active } = this.state;
     return (
       <Fragment>
-        <header className="navigation">
-          <ul className="categories">
-            <li>
+        {this.context !== "" && (
+          <Fragment>
+            <header className="navigation">
+              <ul className="categories">
+                {this.context.categories.map((category) => (
+                  <li key={category.name}>
+                    <Link
+                      className={
+                        category.name === this.state.current
+                          ? "category-active"
+                          : "category"
+                      }
+                      onClick={() => this.setState({ current: category.name })}
+                      to={`/${category.name}`}
+                    >
+                      {category.name.toUpperCase()}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
               <Link
-                className={active === "women" ? "category-active" : "category"}
-                onClick={() => this.setState({ active: "women" })}
-                to="/women"
+                to="/"
+                onClick={() =>
+                  this.setState({ current: this.context.categories[0].name })
+                }
               >
-                WOMEN
+                <Logo className="logo" />
               </Link>
-            </li>
-            <li>
-              <Link
-                className={active === "men" ? "category-active" : "category"}
-                onClick={() => this.setState({ active: "men" })}
-                to="/men"
-              >
-                MEN
-              </Link>
-            </li>
-            <li>
-              <Link
-                className={active === "kids" ? "category-active" : "category"}
-                onClick={() => this.setState({ active: "kids" })}
-                to="/kids"
-              >
-                KIDS
-              </Link>
-            </li>
-          </ul>
-          <Link to="/">
-            <Logo className="logo" />
-          </Link>
-          <div className="actions">
-            <div className="actions-wrapper">
-              <Currency/>
-              <CartDropdown className="cart-icon" />
-            </div>
-          </div>
-        </header>
-        <Outlet />
+              <div className="actions">
+                <div className="actions-wrapper">
+                  <Currency />
+                  <CartDropdown className="cart-icon" />
+                </div>
+              </div>
+            </header>
+            <Outlet />
+          </Fragment>
+        )}
       </Fragment>
     );
   }

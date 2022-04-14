@@ -1,24 +1,46 @@
 import { Routes, Route } from "react-router-dom";
 
 import { Component } from "react";
-import Home from "./routes/home/home.component";
 import Navigation from "./routes/navigation/navigation.component";
-import Women from "./routes/women/women.component";
-import Men from "./routes/men/men.component";
-import Kids from "./routes/kids/kids.component";
 import Description from "./routes/description/description.component";
 import Cart from "./routes/cart/cart.component";
 
+import ProductsList from "./components/products-list/products-list.component";
+
+import DataContext from "./contexts/data.context";
+
 class App extends Component {
+  static contextType = DataContext;
   render() {
     return (
       <Routes>
         <Route path="/" element={<Navigation />}>
-          <Route index element={<Home />} />
-          <Route path="women" element={<Women />} />
-          <Route path="men" element={<Men />} />
-          <Route path="kids" element={<Kids />} />
-          <Route path="description" element={<Description />} />
+          {this.context.length !== 0 && (
+            <Route
+              index
+              element={
+                <ProductsList
+                  products={this.context.categories[0].products}
+                  name={this.context.categories[0].name}
+                />
+              }
+            />
+          )}
+
+          {this.context.length !== 0 &&
+            this.context.categories.map((category) => (
+              <Route
+                key={category.name}
+                path={category.name}
+                element={
+                  <ProductsList
+                    products={category.products}
+                    name={category.name}
+                  />
+                }
+              />
+            ))}
+          <Route path=":test" element={<Description/>} />
           <Route path="cart" element={<Cart />} />
         </Route>
       </Routes>
