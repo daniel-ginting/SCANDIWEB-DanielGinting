@@ -59,7 +59,7 @@ class Navigation extends Component {
               >
                 <Logo className="logo" />
               </Link>
-              <div className="actions">
+              <div className="actionss">
                 <div className="actions-wrapper">
                   <Currency />
                   <CartDropdown className="cart-icon" />
