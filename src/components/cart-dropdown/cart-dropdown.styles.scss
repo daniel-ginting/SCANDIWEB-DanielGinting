@@ -14,7 +14,7 @@
     }
 
     .dropdown__content {
-        display: none;
+        display: block;
 
         right: 0;
         padding-top: 35px;
@@ -199,10 +199,10 @@
 
 }
 
-.dropdown:hover .dropdown__content {
+// .dropdown:active .dropdown__content {
 
-    display: block;
-}
+//     display: block;
+// }
 
 .dropdown:hover+.products-list {
     opacity: 0.5;

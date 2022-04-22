@@ -15,7 +15,28 @@ class CartDropdown extends Component {
     this.state = {
       open: false,
     };
+    this.ref = React.createRef();
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
+
+  onClickOutside() {
+    this.setState({ open: false });
+  }
+
+  handleClickOutside(event) {
+    if (this.ref.current && !this.ref.current.contains(event.target)) {
+      this.onClickOutside && this.onClickOutside();
+    }
+  }
+
+  componentDidMount() {
+    document.addEventListener("click", this.handleClickOutside, true);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("click", this.handleClickOutside, true);
+  }
+
   render() {
     const {
       cartItems,
@@ -37,113 +58,114 @@ class CartDropdown extends Component {
                   {this.state.open === true ? (
                     <div className="overlay" />
                   ) : null}
-                  <div
-                    className="dropdown"
-                    onMouseEnter={() =>
-                      this.setState({
-                        open: true,
-                      })
-                    }
-                    onMouseLeave={() =>
-                      this.setState({
-                        open: false,
-                      })
-                    }
-                  >
-                    <Link to="/cart">
+                  <div className="dropdown">
+                    <button
+                      onClick={() => {
+                        this.setState({ open: this.state.open ? false : true });
+                      }}
+                      id="cart-dropdown-button"
+                    >
                       <Cart />
-                    </Link>
-                    <div className="dropdown__content">
-                      <h3>
-                        My bag,{" "}
-                        <span>
-                          {totalItems} {totalItems > 1 ? "items" : "item"}
-                        </span>
-                      </h3>
-                      <div className="mini-cart-items">
-                        {cartItems.map(
-                          ({
-                            id,
-                            name,
-                            prices,
-                            quantity,
-                            imageUrl,
-                            attributes,
-                          }) => (
-                            <div key={id} className="mini-cart-item">
-                              <div className="mini-cart-item-box-1">
-                                <h4>{name}</h4>
-                                <h4 className="attribute-title">Price:</h4>
-                                <p>
-                                  {currencies[index].symbol}
-                                  {prices[index].amount}
-                                </p>
+                    </button>
+                    {this.state.open ? (
+                      <div className="dropdown__content" ref={this.ref}>
+                        <h3>
+                          My bag,{" "}
+                          <span>
+                            {totalItems} {totalItems > 1 ? "items" : "item"}
+                          </span>
+                        </h3>
+                        <div className="mini-cart-items">
+                          {cartItems.map(
+                            ({
+                              id,
+                              name,
+                              prices,
+                              quantity,
+                              imageUrl,
+                              attributes,
+                            }) => (
+                              <div key={id} className="mini-cart-item">
+                                <div className="mini-cart-item-box-1">
+                                  <h4>{name}</h4>
+                                  <h4 className="attribute-title">Price:</h4>
+                                  <p>
+                                    {currencies[index].symbol}
+                                    {prices[index].amount}
+                                  </p>
 
-                                {attributes.map((item) => (
-                                  <Fragment key={item.id}>
-                                    <h4 className="attribute-title">
-                                      {item.name}
-                                    </h4>
-                                    {item.items.map((attr) => (
-                                      <button
-                                        key={attr.id}
-                                        className={
-                                          item.type === "text"
-                                            ? attr.id === attrValue(id, item.id)
-                                              ? "button-selected"
-                                              : "button-non"
-                                            : attr.id === attrValue(id, item.id)
-                                            ? "swatch-selected"
-                                            : "swatch-non"
-                                        }
-                                        onClick={() => {
-                                          changeAttribute(id, item.id, attr);
-                                        }}
-                                        style={{ backgroundColor: attr.value }}
-                                      >
-                                        {item.type === "text" && attr.value}
-                                      </button>
-                                    ))}
-                                    <br />
-                                  </Fragment>
-                                ))}
-                                {/* <button>s</button> */}
-                                {/* <br/> */}
-                                {/* <button>s</button>
+                                  {attributes.map((item) => (
+                                    <Fragment key={item.id}>
+                                      <h4 className="attribute-title">
+                                        {item.name}
+                                      </h4>
+                                      {item.items.map((attr) => (
+                                        <button
+                                          key={attr.id}
+                                          className={
+                                            item.type === "text"
+                                              ? attr.id ===
+                                                attrValue(id, item.id)
+                                                ? "button-selected"
+                                                : "button-non"
+                                              : attr.id ===
+                                                attrValue(id, item.id)
+                                              ? "swatch-selected"
+                                              : "swatch-non"
+                                          }
+                                          onClick={() => {
+                                            changeAttribute(id, item.id, attr);
+                                          }}
+                                          style={{
+                                            backgroundColor: attr.value,
+                                          }}
+                                        >
+                                          {item.type === "text" && attr.value}
+                                        </button>
+                                      ))}
+                                      <br />
+                                    </Fragment>
+                                  ))}
+                                  {/* <button>s</button> */}
+                                  {/* <br/> */}
+                                  {/* <button>s</button>
                               <button>s</button> */}
-                              </div>
-                              <div className="mini-cart-item-box-2">
-                                <div className="mini-cart-item-amount">
-                                  <button onClick={() => addItem(id)}>+</button>
-                                  <p>{quantity}</p>
-                                  <button onClick={() => reduceItem(id)}>
-                                    -
-                                  </button>
                                 </div>
-                                <img src={imageUrl} alt="product" />
+                                <div className="mini-cart-item-box-2">
+                                  <div className="mini-cart-item-amount">
+                                    <button onClick={() => addItem(id)}>
+                                      +
+                                    </button>
+                                    <p>{quantity}</p>
+                                    <button onClick={() => reduceItem(id)}>
+                                      -
+                                    </button>
+                                  </div>
+                                  <img src={imageUrl} alt="product" />
+                                </div>
                               </div>
-                            </div>
-                          )
-                        )}
-                      </div>
-                      <div className="mini-cart-total">
-                        <h4>Total</h4>
-                        <h4>
-                          {currencies[index].symbol}
-                          {totalPrice}
-                        </h4>
-                      </div>
-                      <div className="mini-cart-buttons">
-                        <Link to="/cart">
-                          <button className="mini-cart-button-1">
-                            VIEW BAG
+                            )
+                          )}
+                        </div>
+                        <div className="mini-cart-total">
+                          <h4>Total</h4>
+                          <h4>
+                            {currencies[index].symbol}
+                            {totalPrice}
+                          </h4>
+                        </div>
+                        <div className="mini-cart-buttons">
+                          <Link to="/cart">
+                            <button className="mini-cart-button-1">
+                              VIEW BAG
+                            </button>
+                          </Link>
+                          <button className="mini-cart-button-2">
+                            CHECK OUT
                           </button>
-                        </Link>
-                        <button className="mini-cart-button-2">
-                          CHECK OUT
-                        </button>
+                        </div>
                       </div>
-                    </div>
+                    ) : null}
                   </div>
                 </Fragment>
               )}
