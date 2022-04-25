@@ -37,7 +37,14 @@ export class CartItemsProvider extends Component {
     this.setState({ cartItems });
   };
 
-  addItemToCart = ({ id, name, prices, imageUrl, attributes, value }) => {
+  addItemToCart = ({
+    id,
+    name,
+    prices,
+    gallery,
+    attributes,
+    value,
+  }) => {
     const { cartItems } = this.state;
     const attributes2 = attributes.map((attribute, i) => {
       return {
@@ -45,14 +52,14 @@ export class CartItemsProvider extends Component {
         name: attribute.name,
         value: value[i] !== undefined ? value[i] : attribute.items[0],
         items: attribute.items,
-        type: attribute.type
+        type: attribute.type,
       };
     });
     cartItems.push({
       id,
       name,
       prices,
-      imageUrl,
+      gallery,
       attributes: attributes2,
       quantity: 1,
     });
@@ -78,7 +85,6 @@ export class CartItemsProvider extends Component {
         (attr) => attr.id === attrId
       );
       cartItems[itemIndex].attributes[attrIndex].value = value;
-      // console.log(cartItems[itemIndex].attributes[attrIndex].value, value);
       this.setState({ cartItems });
     }
   };

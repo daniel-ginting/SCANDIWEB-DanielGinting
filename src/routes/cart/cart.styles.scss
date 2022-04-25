@@ -123,12 +123,36 @@
                 }
             }
 
-            img {
-                width: 141px;
-                height: 185px;
-                margin-left: 12px;
-                object-fit: contain;
-                object-position: center;
+            .sjfhslw {
+                display: flex;
+
+                img {
+                    width: 200px;
+                    height: 288px;
+                    margin: auto;
+                    margin-left: 24px;
+                    object-fit: contain;
+                    object-position: center;
+                }
+
+                .image-caret {
+                    position: absolute;
+                    margin-top: 248px;
+                    cursor: pointer;
+                }
+
+                .image-caret-left {
+                    margin-left: 152px;
+                }
+
+                .image-caret-right {
+                    margin-left: 184px;
+                    transform: rotate(180deg);
+                }
+
+                .image-caret:hover {
+                    opacity: 0.5;
+                }
             }
         }
     }

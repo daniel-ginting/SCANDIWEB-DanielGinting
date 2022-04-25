@@ -18,6 +18,7 @@ class Description extends Component {
       product: null,
       selectedAtrributeId: [],
       selectedAtrribute: [],
+      imageIndex: 0,
     };
   }
 
@@ -68,6 +69,28 @@ class Description extends Component {
   };
 
   render() {
+    const attrClass = (type, value, id) => {
+      if (type === "text") {
+        if (value === id) {
+          return "description-attributes-selected";
+        } else {
+          return "description-attributes";
+        }
+      } else if (type === "swatch") {
+        if (value === id) {
+          return "description-attributes swatch-selected";
+        } else {
+          return "description-attributes swatch";
+        }
+      }
+    };
+    const isAttr = (type, value, id, state) => {
+      if (value) {
+        return attrClass(type, value, id);
+      } else {
+        return attrClass(type, state, id);
+      }
+    };
     return (
       <CurrenciesConsumer>
         {(props) => {
@@ -88,18 +111,23 @@ class Description extends Component {
                     {this.state.product !== null && (
                       <div className="description-main">
                         <div className="description-pictures">
-                          {this.state.product.gallery.map((url) => (
+                          {this.state.product.gallery.map((url, i) => (
                             <img
                               key={url}
                               className="description-picture"
                               src={url}
                               alt="Product"
+                              onClick={() => {
+                                this.setState({ imageIndex: i });
+                              }}
                             />
                           ))}
                         </div>
                         <img
                           className="description-image"
-                          src={this.state.product.gallery[0]}
+                          src={
+                            this.state.product.gallery[this.state.imageIndex]
+                          }
                           alt="product"
                         />
                         <article className="description-info">
@@ -115,29 +143,15 @@ class Description extends Component {
                                   {item.items.map((attr) => (
                                     <li
                                       key={attr.value}
-                                      className={
-                                        item.type === "text"
-                                          ? attr.id ===
-                                              attrValue(
-                                                this.state.product.id,
-                                                item.id
-                                              ) ||
-                                            this.state.selectedAtrributeId[
-                                              i
-                                            ] === attr.id
-                                            ? "description-attributes-selected"
-                                            : "description-attributes"
-                                          : attr.id ===
-                                              attrValue(
-                                                this.state.product.id,
-                                                item.id
-                                              ) ||
-                                            this.state.selectedAtrributeId[
-                                              i
-                                            ] === attr.id
-                                          ? "description-attributes swatch-selected"
-                                          : "description-attributes swatch"
-                                      }
+                                      className={isAttr(
+                                        item.type,
+                                        attrValue(
+                                          this.state.product.id,
+                                          item.id
+                                        ),
+                                        attr.id,
+                                        this.state.selectedAtrributeId[i]
+                                      )}
                                     >
                                       <button
                                         onClick={() => {
@@ -154,8 +168,7 @@ class Description extends Component {
                                         }}
                                         style={{ backgroundColor: attr.value }}
                                       >
-                                        {item.type === "text" &&
-                                          attr.value}
+                                        {item.type === "text" && attr.value}
                                       </button>
                                     </li>
                                   ))}
@@ -176,7 +189,7 @@ class Description extends Component {
                                   id: this.state.product.id,
                                   name: this.state.product.name,
                                   prices: this.state.product.prices,
-                                  imageUrl: this.state.product.gallery[0],
+                                  gallery: this.state.product.gallery,
                                   attributes: this.state.product.attributes,
                                   value: this.state.selectedAtrribute,
                                 });
@@ -189,9 +202,15 @@ class Description extends Component {
                             <div className="description-added">
                               <Reduce
                                 className="description-quantity-button"
-                                onClick={() =>
-                                  reduceItem(this.state.product.id)
-                                }
+                                onClick={() => {
+                                  reduceItem(this.state.product.id);
+                                  if (!quantity(this.state.product.id)) {
+                                    this.setState({
+                                      selectedAtrribute: [],
+                                      selectedAtrributeId: [],
+                                    });
+                                  }
+                                }}
                               />
                               <h2>{quantity(this.state.product.id)}</h2>
                               <Add

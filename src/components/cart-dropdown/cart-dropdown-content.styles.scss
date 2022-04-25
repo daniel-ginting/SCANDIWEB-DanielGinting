@@ -1,0 +1,177 @@
+.dropdown__content {
+    display: block;
+
+    right: 0;
+    padding-top: 35px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 20px;
+    position: absolute;
+    top: 100%;
+
+    background-color: #fff;
+    z-index: 100;
+
+    width: 293px;
+
+    h3 {
+        font-weight: 700;
+        font-size: 16px;
+
+        margin-bottom: 23px;
+
+        span {
+            font-weight: 500;
+        }
+    }
+
+    .mini-cart-items {
+        max-height: 500px;
+        overflow-y: scroll;
+
+        .mini-cart-item {
+            width: 100%;
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 40px;
+
+            padding-bottom: 40px;
+
+            border-bottom: 1px solid black;
+
+            .mini-cart-item-box-1 {
+                flex: 1;
+
+                h4 {
+                    width: 136px;
+                    height: 52px;
+                    margin-bottom: 8px;
+                }
+
+                p {
+                    margin-bottom: 30px;
+                }
+
+                .attribute-title {
+                    font-family: "Roboto Condensed";
+
+                    margin-bottom: 5px;
+                    height: auto;
+                }
+
+                .button-non {
+                    border: 1px solid #1D1F22;
+                    font-size: 14px;
+                    font-weight: 400;
+                    width: auto;
+                    height: 24px;
+                    margin-right: 8px;
+                    margin-bottom: 8px;
+                }
+
+                .button-selected {
+                    border: 1px solid #1D1F22;
+                    background-color: #1D1F22;
+                    color: #fff;
+                    font-size: 14px;
+                    font-weight: 400;
+                    width: auto;
+                    height: 24px;
+                    margin-right: 8px;
+                    margin-bottom: 8px;
+                }
+
+                .swatch-non {
+                    border: 0.5px solid #1D1F22;
+                    font-size: 14px;
+                    font-weight: 400;
+                    width: 24px;
+                    height: 24px;
+                    margin-right: 8px;
+                    margin-bottom: 8px;
+                }
+
+                .swatch-selected {
+                    border: 0.5px solid #1D1F22;
+                    width: 24px;
+                    height: 24px;
+                    margin-left: 3px;
+                    margin-right: 8px;
+                    margin-bottom: 8px;
+                    box-shadow: 0 0 0 1px #fff, 0 0 0 3px #5ECE7B;
+                }
+            }
+
+            .mini-cart-item-box-2 {
+                width: 139px;
+                display: flex;
+
+                .mini-cart-item-amount {
+                    display: flex;
+
+                    justify-content: space-between;
+                    flex-direction: column;
+
+                    margin-right: 10px;
+
+                    button {
+                        width: 24px;
+                        height: 24px;
+                        border: 1px solid #1D1F22;
+                    }
+
+                    p {
+                        width: 100%;
+                        text-align: center;
+                        font-weight: 500;
+                        font-size: 16px;
+
+                    }
+                }
+
+                img {
+                    width: 105px;
+                    height: 137px;
+                    margin: auto;
+
+                    object-fit: contain;
+                    object-position: center center;
+                }
+            }
+        }
+    }
+
+    .mini-cart-total {
+        display: flex;
+        justify-content: space-between;
+
+        margin-bottom: 35px;
+    }
+
+    .mini-cart-buttons {
+        display: flex;
+        justify-content: space-between;
+
+
+        button {
+            width: 140px;
+            height: 43px;
+
+            font-family: 'Raleway';
+            font-weight: 600;
+            font-size: 14px;
+
+            border: 1px solid #1D1F22;
+
+            cursor: pointer;
+        }
+
+        .mini-cart-button-2 {
+            color: #fff;
+            background-color: #5ECE7B;
+            border: none;
+        }
+    }
+}

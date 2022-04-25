@@ -13,16 +13,7 @@ class ProductsList extends Component {
       <Fragment>
         {name !== undefined && (
           <Fragment>
-            <h1
-              style={{
-                marginTop: "80px",
-                marginLeft: "100px",
-                fontFamily: "Raleway",
-                fontWeight: "400",
-                fontSize: "42px",
-                marginBottom: "50px",
-              }}
-            >
+            <h1 className="epxksnu3">
               {name.charAt(0).toUpperCase() + name.slice(1)}
             </h1>
             <div className="products-list">

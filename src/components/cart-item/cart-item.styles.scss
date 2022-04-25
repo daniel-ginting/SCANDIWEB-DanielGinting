@@ -1,0 +1,143 @@
+.cart-big-item {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 20px 0;
+
+    border-top: 1px solid #E5E5E5;
+
+    .cart-big-item-left {
+
+        h1 {
+            font-size: 30px;
+            width: 292px;
+            margin-bottom: 12px;
+            padding: 0;
+        }
+
+        .attribute-title {
+            margin-top: 15px;
+            font-size: 25px;
+            font-family: "Roboto Condensed";
+        }
+
+        .button-selected {
+            margin-top: 12px;
+            border: 1px solid #1D1F22;
+            box-sizing: border-box;
+            width: 63px;
+            height: 45px;
+            background-color: white;
+            padding: 0;
+
+            margin-right: 12px;
+            color: #fff;
+            background-color: #1D1F22;
+
+            cursor: pointer;
+        }
+
+        .button-non {
+            margin-top: 12px;
+            border: 1px solid #1D1F22;
+            box-sizing: border-box;
+            width: 63px;
+            height: 45px;
+            background-color: #fff;
+            padding: 0;
+
+            margin-right: 12px;
+
+            cursor: pointer;
+        }
+
+        .swatch-selected {
+            border: 0.5px solid #1D1F22;
+            margin-top: 12px;
+            box-sizing: border-box;
+            width: 45px;
+            height: 45px;
+            background-color: #fff;
+            padding: 0;
+
+            margin-right: 12px;
+
+            cursor: pointer;
+
+            box-shadow: 0 0 0 7px #20ACE9;
+        }
+
+        .swatch-non {
+            margin-top: 12px;
+            border: 0.5px solid #1D1F22;
+            box-sizing: border-box;
+            width: 45px;
+            height: 45px;
+            background-color: #fff;
+            padding: 0;
+
+            margin-right: 12px;
+
+            cursor: pointer;
+        }
+    }
+
+    .cart-big-item-right {
+        display: flex;
+
+        .cart-big-item-right-group {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            button {
+                width: 45px;
+                height: 45px;
+                padding: 0;
+                border: 1px solid #1D1F22;
+                background-color: white;
+                font-size: 30px;
+                cursor: pointer;
+            }
+
+            p {
+                text-align: center;
+                font-family: 'Raleway';
+                font-weight: 500;
+                font-size: 24px;
+            }
+        }
+
+        .sjfhslw {
+            display: flex;
+
+            img {
+                width: 200px;
+                height: 288px;
+                margin: auto;
+                margin-left: 24px;
+                object-fit: contain;
+                object-position: center;
+            }
+
+            .image-caret {
+                position: absolute;
+                margin-top: 248px;
+                cursor: pointer;
+            }
+
+            .image-caret-left {
+                margin-left: 152px;
+            }
+
+            .image-caret-right {
+                margin-left: 184px;
+                transform: rotate(180deg);
+            }
+
+            .image-caret:hover {
+                opacity: 0.5;
+            }
+        }
+    }
+}

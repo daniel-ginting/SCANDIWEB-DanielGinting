@@ -7,7 +7,7 @@ import { DataProvider } from "./contexts/data.context";
 import { CurrenciesProvider } from "./contexts/currencies.context";
 import { CartItemsProvider } from "./contexts/cart-items.context";
 
-import "./index.css";
+import "./index.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
