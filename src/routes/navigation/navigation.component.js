@@ -1,24 +1,30 @@
 import React, { Component, Fragment } from "react";
 import { Outlet, Link } from "react-router-dom";
+import { client } from "../..";
+
+import { NAVIGATION_QUERY } from "../../queries/queries";
 
 import { ReactComponent as Logo } from "../../assets/logo.svg";
 
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 import Currency from "../../components/currency/currency.component";
 
-import DataContext from "../../contexts/data.context";
-
 import "./navigation.styles.scss";
 
 class Navigation extends Component {
-  static contextType = DataContext;
   constructor() {
     super();
     this.state = {
+      categories: [],
       current: "",
     };
   }
   componentDidMount() {
+    client
+      .query({
+        query: NAVIGATION_QUERY,
+      })
+      .then((result) => this.setState({ categories: result.data.categories }));
     let arr = window.location.pathname.split("");
     arr.shift();
     let str = arr.join("");
@@ -31,11 +37,11 @@ class Navigation extends Component {
   render() {
     return (
       <Fragment>
-        {this.context !== "" && (
+        {this.state.categories.length && (
           <Fragment>
             <header className="navigation">
               <ul className="categories">
-                {this.context.categories.map((category) => (
+                {this.state.categories.map((category) => (
                   <li key={category.name}>
                     <Link
                       className={
@@ -54,7 +60,7 @@ class Navigation extends Component {
               <Link
                 to="/"
                 onClick={() =>
-                  this.setState({ current: this.context.categories[0].name })
+                  this.setState({ current: this.state.categories[0].name })
                 }
               >
                 <Logo className="logo" />

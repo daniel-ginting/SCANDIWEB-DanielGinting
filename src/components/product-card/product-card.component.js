@@ -79,7 +79,7 @@ class ProductCard extends Component {
                   </Link>
                 </div>
               ) : (
-                <div className="product-card-disabled">
+                <Link to={`/${id}`} className="product-card-disabled">
                   <img
                     src={`${gallery[0]}`}
                     className="product-image"
@@ -90,7 +90,7 @@ class ProductCard extends Component {
                     <h2>{name}</h2>
                     <p>{`${prices[index].currency.symbol} ${prices[index].amount}`}</p>
                   </div>
-                </div>
+                </Link>
               )}
             </Fragment>
           );

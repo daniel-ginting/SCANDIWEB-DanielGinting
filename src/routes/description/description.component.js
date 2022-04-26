@@ -1,7 +1,8 @@
 import { Component, Fragment } from "react";
-import { gql } from "@apollo/client";
 import { client } from "../../index";
 import parse from "html-react-parser";
+
+import { PRODUCT_QUERY } from "../../queries/queries";
 
 import { CurrenciesConsumer } from "../../contexts/currencies.context";
 import { CartItemsConsumer } from "../../contexts/cart-items.context";
@@ -28,33 +29,7 @@ class Description extends Component {
     let str = arr.join("");
     client
       .query({
-        query: gql`
-          query ($id: String!) {
-            product(id: $id) {
-              id
-              name
-              gallery
-              description
-              attributes {
-                id
-                name
-                type
-                items {
-                  displayValue
-                  value
-                  id
-                }
-              }
-              prices {
-                amount
-                currency {
-                  symbol
-                }
-              }
-              brand
-            }
-          }
-        `,
+        query: PRODUCT_QUERY,
         variables: { id: str },
       })
       .then((result) => this.setState({ product: result.data.product }));
@@ -130,7 +105,7 @@ class Description extends Component {
                           }
                           alt="product"
                         />
-                        <article className="description-info">
+                        <div className="description-info">
                           <h1>{this.state.product.brand}</h1>
                           <h2>{this.state.product.name}</h2>
 
@@ -182,48 +157,53 @@ class Description extends Component {
                           <h2 className="description-price">
                             {`${this.state.product.prices[index].currency.symbol} ${this.state.product.prices[index].amount}`}
                           </h2>
-                          {quantity(this.state.product.id) < 1 ? (
-                            <button
-                              onClick={() => {
-                                addItemToCart({
-                                  id: this.state.product.id,
-                                  name: this.state.product.name,
-                                  prices: this.state.product.prices,
-                                  gallery: this.state.product.gallery,
-                                  attributes: this.state.product.attributes,
-                                  value: this.state.selectedAtrribute,
-                                });
-                              }}
-                              className="description-add"
-                            >
-                              ADD TO CART
-                            </button>
-                          ) : (
-                            <div className="description-added">
-                              <Reduce
-                                className="description-quantity-button"
+                          {this.state.product.inStock ? (
+                            quantity(this.state.product.id) < 1 ? (
+                              <button
                                 onClick={() => {
-                                  reduceItem(this.state.product.id);
-                                  if (!quantity(this.state.product.id)) {
-                                    this.setState({
-                                      selectedAtrribute: [],
-                                      selectedAtrributeId: [],
-                                    });
-                                  }
+                                  addItemToCart({
+                                    id: this.state.product.id,
+                                    name: this.state.product.name,
+                                    prices: this.state.product.prices,
+                                    gallery: this.state.product.gallery,
+                                    attributes: this.state.product.attributes,
+                                    value: this.state.selectedAtrribute,
+                                  });
                                 }}
-                              />
-                              <h2>{quantity(this.state.product.id)}</h2>
-                              <Add
-                                className="description-quantity-button"
-                                onClick={() => addItem(this.state.product.id)}
-                              />
-                            </div>
+                                className="description-big-button"
+                              >
+                                ADD TO CART
+                              </button>
+                            ) : (
+                              <div className="description-added">
+                                <Reduce
+                                  className="description-quantity-button"
+                                  onClick={() => {
+                                    reduceItem(this.state.product.id);
+                                    if (!quantity(this.state.product.id)) {
+                                      this.setState({
+                                        selectedAtrribute: [],
+                                        selectedAtrributeId: [],
+                                      });
+                                    }
+                                  }}
+                                />
+                                <h2>{quantity(this.state.product.id)}</h2>
+                                <Add
+                                  className="description-quantity-button"
+                                  onClick={() => addItem(this.state.product.id)}
+                                />
+                              </div>
+                            )
+                          ) : (
+                            <button className="description-big-button nostock">
+                              OUT OF STOCK
+                            </button>
                           )}
-
                           <div className="description-description">
                             {parse(this.state.product.description)}
                           </div>
-                        </article>
+                        </div>
                       </div>
                     )}
                   </Fragment>
