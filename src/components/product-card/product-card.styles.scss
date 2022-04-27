@@ -39,6 +39,10 @@
         font-size: 18px;
     }
 
+    .product-circle:hover {
+        opacity: 0.5;
+    }
+
     .product-quantity {
         background-color: #5ECE7B;
         position: absolute;
@@ -227,7 +231,6 @@
 }
 
 .product-card-disabled:hover {
-    // filter: drop-shadow(0px 4px 35px rgba(168, 172, 176, 0.19));
     box-shadow: 0px 4px 35px 0px #A8ACB030;
     ;
 }

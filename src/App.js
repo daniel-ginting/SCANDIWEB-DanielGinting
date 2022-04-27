@@ -1,49 +1,58 @@
 import { Routes, Route } from "react-router-dom";
+import { client } from ".";
+import { NAVIGATION_QUERY } from "./schema/schema";
 
-import { Component } from "react";
+import { Component, Fragment } from "react";
 import Navigation from "./routes/navigation/navigation.component";
 import Description from "./routes/description/description.component";
 import Cart from "./routes/cart/cart.component";
 
 import ProductsList from "./components/products-list/products-list.component";
 
-import DataContext from "./contexts/data.context";
-
 class App extends Component {
-  static contextType = DataContext;
+  constructor() {
+    super();
+    this.state = {
+      categories: [],
+    };
+  }
+  componentDidMount() {
+    client
+      .query({
+        query: NAVIGATION_QUERY,
+      })
+      .then((result) => {
+        this.setState({ categories: result.data.categories });
+      });
+  }
   render() {
     return (
-      <Routes>
-        <Route path="/" element={<Navigation />}>
-          {this.context.length !== 0 && (
+      <Fragment>
+        {this.state.categories.length && (
+          <Routes>
             <Route
-              index
-              element={
-                <ProductsList
-                  products={this.context.categories[0].products}
-                  name={this.context.categories[0].name}
-                />
-              }
-            />
-          )}
-
-          {this.context.length !== 0 &&
-            this.context.categories.map((category) => (
+              path="/"
+              element={<Navigation categories={this.state.categories} />}
+            >
               <Route
-                key={category.name}
-                path={category.name}
+                index
                 element={
-                  <ProductsList
-                    products={category.products}
-                    name={category.name}
-                  />
+                  <ProductsList firstCategory={this.state.categories[0].name} />
                 }
               />
-            ))}
-          <Route path=":test" element={<Description/>} />
-          <Route path="cart" element={<Cart />} />
-        </Route>
-      </Routes>
+              {this.state.categories.map((category) => (
+                <Route
+                  key={category.name}
+                  path={category.name}
+                  element={<ProductsList key={category.name} />}
+                />
+              ))}
+              <Route path="cart" element={<Cart />} />
+              <Route path=":product" element={<Description />} />
+            </Route>
+          </Routes>
+        )}
+      </Fragment>
     );
   }
 }

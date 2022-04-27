@@ -9,6 +9,8 @@ import CartItemsContext from "../../contexts/cart-items.context";
 import { CurrenciesConsumer } from "../../contexts/currencies.context";
 
 import "./product-card.styles.scss";
+import { client } from "../..";
+import { CARD_QUERY } from "../../schema/schema";
 
 class ProductCard extends Component {
   static contextType = CartItemsContext;
@@ -22,7 +24,6 @@ class ProductCard extends Component {
   toggleButton = (number) => {
     if (number < 2) {
       this.setState({ added: false });
-      console.log(number);
     }
   };
 
@@ -31,9 +32,28 @@ class ProductCard extends Component {
   }
 
   render() {
-    const { id, name, gallery, prices, inStock } =
-      this.props.product;
-    const { addItem, reduceItem, quantity } = this.context;
+    const { id, name, gallery, prices, inStock } = this.props.product;
+    const { addItem, reduceItem, quantity, addItemToCart } = this.context;
+    const handleCartClick = () => {
+      client
+        .query({
+          query: CARD_QUERY,
+          variables: { id },
+        })
+        .then((result) => {
+          return result.data.product;
+        })
+        .then((data) =>
+          addItemToCart({
+            id: data.id,
+            name: data.name,
+            prices: data.prices,
+            gallery: data.gallery,
+            attributes: data.attributes,
+            value: data.attributes[0],
+          })
+        );
+    };
     return (
       <CurrenciesConsumer>
         {(props) => {
@@ -60,9 +80,12 @@ class ProductCard extends Component {
                         />
                       </Fragment>
                     ) : (
-                      <Link to={`/${id}`} className="product-circle">
+                      <button
+                        className="product-circle"
+                        onClick={handleCartClick}
+                      >
                         <Cart className="product-cart" />
-                      </Link>
+                      </button>
                     )
                   ) : null}
                   <Link to={`/${id}`}>

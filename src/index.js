@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
-import { DataProvider } from "./contexts/data.context";
 import { CurrenciesProvider } from "./contexts/currencies.context";
 import { CartItemsProvider } from "./contexts/cart-items.context";
 
@@ -20,13 +19,11 @@ createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <BrowserRouter>
-        <DataProvider>
-          <CurrenciesProvider>
-            <CartItemsProvider>
-              <App />
-            </CartItemsProvider>
-          </CurrenciesProvider>
-        </DataProvider>
+        <CurrenciesProvider>
+          <CartItemsProvider>
+            <App />
+          </CartItemsProvider>
+        </CurrenciesProvider>
       </BrowserRouter>
     </ApolloProvider>
   </React.StrictMode>

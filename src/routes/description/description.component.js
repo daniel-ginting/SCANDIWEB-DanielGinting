@@ -2,7 +2,7 @@ import { Component, Fragment } from "react";
 import { client } from "../../index";
 import parse from "html-react-parser";
 
-import { PRODUCT_QUERY } from "../../queries/queries";
+import { PRODUCT_QUERY } from "../../schema/schema";
 
 import { CurrenciesConsumer } from "../../contexts/currencies.context";
 import { CartItemsConsumer } from "../../contexts/cart-items.context";
@@ -105,7 +105,9 @@ class Description extends Component {
                           }
                           alt="product"
                         />
+                        <div className="description-gradient"/>
                         <div className="description-info">
+                          
                           <h1>{this.state.product.brand}</h1>
                           <h2>{this.state.product.name}</h2>
 
