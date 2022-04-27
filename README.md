@@ -16,7 +16,7 @@ After the server starts, if it starts at localhost:4000, you're good to go. But 
 
 ```javascript
 export const client = new ApolloClient({
-  uri: "http://localhost:4000/", // ---> change this to where ever your GraphQL endpoint is running
+  uri: "http://localhost:4000/", // ---> change this to wherever your GraphQL endpoint is running
   cache: new InMemoryCache(),
 });
 ```
