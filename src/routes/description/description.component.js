@@ -105,9 +105,7 @@ class Description extends Component {
                           }
                           alt="product"
                         />
-                        <div className="description-gradient"/>
                         <div className="description-info">
-                          
                           <h1>{this.state.product.brand}</h1>
                           <h2>{this.state.product.name}</h2>
 
