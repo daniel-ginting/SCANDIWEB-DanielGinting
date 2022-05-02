@@ -1,7 +1,5 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import CartItem from "../../components/cart-item/cart-item.component";
-
-import { ReactComponent as Caret } from "../../assets/cart-page-image-switch.svg";
 
 import CartItemsContext from "../../contexts/cart-items.context";
 import { CurrenciesConsumer } from "../../contexts/currencies.context";
