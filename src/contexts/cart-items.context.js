@@ -37,14 +37,7 @@ export class CartItemsProvider extends Component {
     this.setState({ cartItems });
   };
 
-  addItemToCart = ({
-    id,
-    name,
-    prices,
-    gallery,
-    attributes,
-    value,
-  }) => {
+  addItemToCart = ({ id, name, prices, gallery, attributes, value }) => {
     const { cartItems } = this.state;
     const attributes2 = attributes.map((attribute, i) => {
       return {
@@ -112,10 +105,11 @@ export class CartItemsProvider extends Component {
     } = this;
     const { index } = this.context;
     const totalItems = cartItems.reduce((i, n) => i + n.quantity, 0);
-    const totalPrice = cartItems.reduce(
-      (i, n) => i + n.quantity * n.prices[index].amount,
-      0
-    );
+    const totalPrice =
+      Math.round(
+        cartItems.reduce((i, n) => i + n.quantity * n.prices[index].amount, 0) *
+          100
+      ) / 100;
     return (
       <CartItemsContext.Provider
         value={{

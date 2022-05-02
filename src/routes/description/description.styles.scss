@@ -42,7 +42,6 @@
             height: 100%;
             width: 292px;
             float: right;
-            overflow-y: auto;
 
             h1 {
                 font-family: 'Raleway';
@@ -192,31 +191,31 @@
                 font-weight: 400;
                 font-size: 16px;
                 line-height: 159.96%;
-                height: auto;
+                max-height: 40%;
+                overflow-y: auto;
 
                 ul {
                     display: flex;
                     flex-direction: column;
                 }
             }
+
+            .description-description::-webkit-scrollbar-track {
+                box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+                border-radius: 10px;
+                background-color: #F5F5F5;
+            }
+
+            .description-description::-webkit-scrollbar {
+                width: 12px;
+                background-color: #F5F5F5;
+            }
+
+            .description-description::-webkit-scrollbar-thumb {
+                border-radius: 10px;
+                box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+                background-color: #555;
+            }
         }
     }
-
-    .description-info::-webkit-scrollbar-track {
-        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-        border-radius: 10px;
-        background-color: #F5F5F5;
-    }
-
-    .description-info::-webkit-scrollbar {
-        width: 12px;
-        background-color: #F5F5F5;
-    }
-
-    .description-info::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-        background-color: #555;
-    }
-
 }
