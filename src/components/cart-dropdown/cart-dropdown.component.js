@@ -3,9 +3,12 @@ import React, { Component, Fragment } from "react";
 import DropdownContent from "./cart-dropdown-content.component";
 import { ReactComponent as Cart } from "../../assets/cart.svg";
 
+import CartItemsContext from "../../contexts/cart-items.context";
+
 import "./cart-dropdown.styles.scss";
 
 class CartDropdown extends Component {
+  static contextType = CartItemsContext;
   constructor() {
     super();
     this.state = {
@@ -24,6 +27,9 @@ class CartDropdown extends Component {
             }}
           >
             <Cart />
+            {this.context.totalItems > 0 && (
+              <div className="cart-circle">{this.context.totalItems}</div>
+            )}
           </button>
           {this.state.open ? (
             <DropdownContent
