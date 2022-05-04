@@ -62,13 +62,16 @@
                 }
 
                 .button-non {
-                    border: 1px solid #1D1F22;
+                    border: 1px solid #A6A6A6;
+                    background: rgba(166, 166, 166, 0.2);
                     font-size: 14px;
                     font-weight: 400;
                     width: auto;
                     height: 24px;
                     margin-right: 8px;
                     margin-bottom: 8px;
+                    color: #A6A6A6;
+                    cursor: default;
                 }
 
                 .button-selected {
@@ -81,6 +84,7 @@
                     height: 24px;
                     margin-right: 8px;
                     margin-bottom: 8px;
+                    cursor: default;
                 }
 
                 .swatch-non {
@@ -91,6 +95,7 @@
                     height: 24px;
                     margin-right: 8px;
                     margin-bottom: 8px;
+                    cursor: default;
                 }
 
                 .swatch-selected {
@@ -101,6 +106,7 @@
                     margin-right: 8px;
                     margin-bottom: 8px;
                     box-shadow: 0 0 0 1px #fff, 0 0 0 3px #5ECE7B;
+                    cursor: default;
                 }
             }
 

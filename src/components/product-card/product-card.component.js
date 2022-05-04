@@ -2,8 +2,6 @@ import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 
 import { ReactComponent as Cart } from "../../assets/white-cart.svg";
-import { ReactComponent as Add } from "../../assets/card-add.svg";
-import { ReactComponent as Reduce } from "../../assets/card-reduce.svg";
 
 import CartItemsContext from "../../contexts/cart-items.context";
 import { CurrenciesConsumer } from "../../contexts/currencies.context";
@@ -32,8 +30,9 @@ class ProductCard extends Component {
   }
 
   render() {
-    const { id, name, gallery, prices, inStock } = this.props.product;
-    const { addItem, reduceItem, quantity, addItemToCart } = this.context;
+    const { id, name, gallery, prices, inStock } =
+      this.props.product;
+    const { addItem, quantity, addItemToCart } = this.context;
     const handleCartClick = () => {
       client
         .query({
@@ -43,7 +42,12 @@ class ProductCard extends Component {
         .then((result) => {
           return result.data.product;
         })
-        .then((data) =>
+        .then((data) => {
+          const values = {};
+          data.attributes.forEach((item) => {
+            values[item.id] = item.items[0].id;
+          });
+          quantity(data.id, values) === 0 ?
           addItemToCart({
             id: data.id,
             name: data.name,
@@ -51,8 +55,9 @@ class ProductCard extends Component {
             gallery: data.gallery,
             attributes: data.attributes,
             value: data.attributes[0],
-          })
-        );
+            values
+          }) : addItem(data.id, values)
+        });
     };
     return (
       <CurrenciesConsumer>
@@ -66,7 +71,7 @@ class ProductCard extends Component {
                   onMouseLeave={() => this.setState({ open: false })}
                   className="product-card"
                 >
-                  {this.state.open ? (
+                  {/* {this.state.open ? (
                     quantity(id) >= 1 ? (
                       <Fragment>
                         <Add className="card-add" onClick={() => addItem(id)} />
@@ -79,15 +84,15 @@ class ProductCard extends Component {
                           }}
                         />
                       </Fragment>
-                    ) : (
+                    ) : ( */}
                       <button
                         className="product-circle"
                         onClick={handleCartClick}
                       >
                         <Cart className="product-cart" />
                       </button>
-                    )
-                  ) : null}
+                    {/* )
+                  ) : null} */}
                   <Link to={`/${id}`}>
                     <img
                       src={`${gallery[0]}`}

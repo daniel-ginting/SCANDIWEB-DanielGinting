@@ -7,9 +7,6 @@ import { PRODUCT_QUERY } from "../../schema/schema";
 import { CurrenciesConsumer } from "../../contexts/currencies.context";
 import { CartItemsConsumer } from "../../contexts/cart-items.context";
 
-import { ReactComponent as Add } from "../../assets/description-add.svg";
-import { ReactComponent as Reduce } from "../../assets/description-reduce.svg";
-
 import "./description.styles.scss";
 
 class Description extends Component {
@@ -17,9 +14,8 @@ class Description extends Component {
     super();
     this.state = {
       product: null,
-      selectedAtrributeId: [],
-      selectedAtrribute: [],
       imageIndex: 0,
+      selectAttr: {},
     };
   }
 
@@ -35,12 +31,11 @@ class Description extends Component {
       .then((result) => this.setState({ product: result.data.product }));
   }
 
-  handleAttribute = (i, id, attr) => {
-    const { selectedAtrributeId, selectedAtrribute } = this.state;
-    selectedAtrributeId[i] = id;
-    selectedAtrribute[i] = attr;
-    this.setState({ selectedAtrributeId });
-    this.setState({ selectedAtrribute });
+  handleChangeObject = (attr, value) => {
+    const { selectAttr } = this.state;
+    selectAttr[attr] = value;
+    this.setState({ selectAttr });
+    console.log(selectAttr);
   };
 
   render() {
@@ -59,12 +54,33 @@ class Description extends Component {
         }
       }
     };
-    const isAttr = (type, value, id, state) => {
-      if (value) {
-        return attrClass(type, value, id);
-      } else {
-        return attrClass(type, state, id);
-      }
+    const isAttr = (type, id, state) => {
+      return attrClass(type, state, id);
+    };
+    const handleAdd = (addItemToCart, addItem, quantity) => {
+      const selectAttr = Object.assign({}, this.state.selectAttr);
+      this.state.product.attributes.forEach((item) => {
+        if (selectAttr[item.id] === undefined) {
+          selectAttr[item.id] = item.items[0].id;
+        }
+      });
+      this.setState({ selectAttr });
+      quantity(
+        this.state.product.id,
+        this.state.selectAttr
+      ) === 0 ?
+      addItemToCart({
+        id: this.state.product.id,
+        name: this.state.product.name,
+        prices: this.state.product.prices,
+        gallery: this.state.product.gallery,
+        attributes: this.state.product.attributes,
+        values: Object.assign({}, selectAttr),
+      }) : 
+      addItem(
+        this.state.product.id,
+        Object.assign({}, this.state.selectAttr)
+      )
     };
     return (
       <CurrenciesConsumer>
@@ -73,14 +89,7 @@ class Description extends Component {
           return (
             <CartItemsConsumer>
               {(props2) => {
-                const {
-                  quantity,
-                  addItemToCart,
-                  addItem,
-                  reduceItem,
-                  changeAttribute,
-                  attrValue,
-                } = props2;
+                const { cartItems, quantity, addItemToCart, addItem } = props2;
                 return (
                   <Fragment>
                     {this.state.product !== null && (
@@ -121,26 +130,20 @@ class Description extends Component {
                                         key={attr.value}
                                         className={isAttr(
                                           item.type,
-                                          attrValue(
-                                            this.state.product.id,
-                                            item.id
-                                          ),
                                           attr.id,
-                                          this.state.selectedAtrributeId[i]
+                                          this.state.selectAttr[item.id] !==
+                                            undefined
+                                            ? this.state.selectAttr[item.id]
+                                            : ""
                                         )}
                                       >
                                         <button
                                           onClick={() => {
-                                            changeAttribute(
-                                              this.state.product.id,
+                                            this.handleChangeObject(
                                               item.id,
-                                              attr
+                                              attr.id
                                             );
-                                            this.handleAttribute(
-                                              i,
-                                              attr.id,
-                                              attr
-                                            );
+                                            console.log(cartItems);
                                           }}
                                           style={{
                                             backgroundColor: attr.value,
@@ -155,51 +158,18 @@ class Description extends Component {
                               );
                             })}
                             {/* END OF ATTRIBUTES */}
-
                             <h3>PRICE:</h3>
                             <h2 className="description-price">
                               {`${this.state.product.prices[index].currency.symbol} ${this.state.product.prices[index].amount}`}
                             </h2>
                             {this.state.product.inStock ? (
-                              quantity(this.state.product.id) < 1 ? (
-                                <button
-                                  onClick={() => {
-                                    addItemToCart({
-                                      id: this.state.product.id,
-                                      name: this.state.product.name,
-                                      prices: this.state.product.prices,
-                                      gallery: this.state.product.gallery,
-                                      attributes: this.state.product.attributes,
-                                      value: this.state.selectedAtrribute,
-                                    });
-                                  }}
-                                  className="description-big-button"
-                                >
-                                  ADD TO CART
-                                </button>
-                              ) : (
-                                <div className="description-added">
-                                  <Reduce
-                                    className="description-quantity-button"
-                                    onClick={() => {
-                                      reduceItem(this.state.product.id);
-                                      if (!quantity(this.state.product.id)) {
-                                        this.setState({
-                                          selectedAtrribute: [],
-                                          selectedAtrributeId: [],
-                                        });
-                                      }
-                                    }}
-                                  />
-                                  <h2>{quantity(this.state.product.id)}</h2>
-                                  <Add
-                                    className="description-quantity-button"
-                                    onClick={() =>
-                                      addItem(this.state.product.id)
-                                    }
-                                  />
-                                </div>
-                              )
+                              <button
+                                onClick={() => {handleAdd(addItemToCart, addItem, quantity)
+                                }}
+                                className="description-big-button"
+                              >
+                                ADD TO CART
+                              </button>
                             ) : (
                               <button className="description-big-button nostock">
                                 OUT OF STOCK

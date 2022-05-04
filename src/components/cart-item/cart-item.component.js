@@ -43,15 +43,17 @@ class CartItem extends Component {
   };
 
   render() {
-    const { addItem, reduceItem, attrValue, changeAttribute } = this.context;
-    const { id, name, prices, gallery, quantity, attributes } = this.props;
+    const { addItem, reduceItem } = this.context;
+    const { id, name, prices, gallery, quantity, attributes, values } =
+      this.props;
     return (
       <CurrenciesConsumer>
         {(props) => {
           const { currencies, index } = props;
           return (
-            <div key={id} className="cart-big-item">
+            <div className="cart-big-item">
               <div className="cart-big-item-left">
+                {console.log(values)}
                 <h1>{name}</h1>
                 <h2>
                   {currencies[index].symbol}
@@ -65,16 +67,13 @@ class CartItem extends Component {
                         key={attr.id}
                         className={
                           item.type === "text"
-                            ? attr.id === attrValue(id, item.id)
+                            ? attr.id === values[item.id]
                               ? "button-selected"
                               : "button-non"
-                            : attr.id === attrValue(id, item.id)
+                            : attr.id === values[item.id]
                             ? "swatch-selected"
                             : "swatch-non"
                         }
-                        onClick={() => {
-                          changeAttribute(id, item.id, attr);
-                        }}
                         style={{ backgroundColor: attr.value }}
                       >
                         {item.type === "text" && attr.value}
@@ -86,9 +85,9 @@ class CartItem extends Component {
               </div>
               <div className="cart-big-item-right">
                 <div className="cart-big-item-right-group">
-                  <button onClick={() => addItem(id)}>+</button>
+                  <button onClick={() => addItem(id, values)}>+</button>
                   <p>{quantity}</p>
-                  <button onClick={() => reduceItem(id)}>-</button>
+                  <button onClick={() => reduceItem(id, values)}>-</button>
                 </div>
                 <div className="sjfhslw">
                   <img src={gallery[this.state.imageIndex]} alt="product" />

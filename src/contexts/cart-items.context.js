@@ -16,18 +16,28 @@ export class CartItemsProvider extends Component {
     };
   }
 
-  addItem = (id) => {
+  addItem = (id, values) => {
     const { cartItems } = this.state;
 
-    cartItems[cartItems.findIndex((item) => item.id === id)].quantity++;
-
+    cartItems[
+      cartItems.findIndex((item) => {
+        return Object.keys(values).every(
+          (item2) => values[item2] === item.values[item2] && item.id === id
+        );
+      })
+    ].quantity++;
+    console.log("additem");
     this.setState({ cartItems });
   };
 
-  reduceItem = (id) => {
+  reduceItem = (id, values) => {
     const { cartItems } = this.state;
 
-    const index = cartItems.findIndex((item) => item.id === id);
+    const index = cartItems.findIndex((item) => {
+      return Object.keys(values).every(
+        (item2) => values[item2] === item.values[item2] && item.id === id
+      );
+    });
 
     cartItems[index].quantity--;
     if (cartItems[index].quantity === 0) {
@@ -37,32 +47,32 @@ export class CartItemsProvider extends Component {
     this.setState({ cartItems });
   };
 
-  addItemToCart = ({ id, name, prices, gallery, attributes, value }) => {
+  addItemToCart = ({ id, name, prices, gallery, attributes, values }) => {
     const { cartItems } = this.state;
-    const attributes2 = attributes.map((attribute, i) => {
-      return {
-        id: attribute.id,
-        name: attribute.name,
-        value: value[i] !== undefined ? value[i] : attribute.items[0],
-        items: attribute.items,
-        type: attribute.type,
-      };
-    });
     cartItems.push({
       id,
       name,
       prices,
       gallery,
-      attributes: attributes2,
+      attributes,
       quantity: 1,
+      values,
     });
-
     this.setState({ cartItems });
   };
 
-  quantity = (id) => {
+  quantity = (id, values) => {
     const { cartItems } = this.state;
-    const index = cartItems.findIndex((item) => item.id === id);
+
+    if (Object.keys(values).length === 0) {
+      values.attr = 1;
+    }
+
+    const index = cartItems.findIndex((item) => {
+      return Object.keys(values).every(
+        (item2) => values[item2] === item.values[item2] && item.id === id
+      );
+    });
     if (cartItems[index] !== undefined) {
       return cartItems[index].quantity;
     } else {
@@ -70,39 +80,9 @@ export class CartItemsProvider extends Component {
     }
   };
 
-  changeAttribute = (itemId, attrId, value) => {
-    let { cartItems } = this.state;
-    const itemIndex = cartItems.findIndex((item) => item.id === itemId);
-    if (itemIndex >= 0) {
-      const attrIndex = cartItems[itemIndex].attributes.findIndex(
-        (attr) => attr.id === attrId
-      );
-      cartItems[itemIndex].attributes[attrIndex].value = value;
-      this.setState({ cartItems });
-    }
-  };
-
-  attrValue = (itemId, attrId) => {
-    let { cartItems } = this.state;
-    const itemIndex = cartItems.findIndex((item) => item.id === itemId);
-    if (itemIndex >= 0) {
-      const attrIndex = cartItems[itemIndex].attributes.findIndex(
-        (attr) => attr.id === attrId
-      );
-      return cartItems[itemIndex].attributes[attrIndex].value.id;
-    }
-  };
-
   render() {
     const { cartItems } = this.state;
-    const {
-      addItem,
-      reduceItem,
-      addItemToCart,
-      quantity,
-      attrValue,
-      changeAttribute,
-    } = this;
+    const { addItem, reduceItem, addItemToCart, quantity } = this;
     const { index } = this.context;
     const totalItems = cartItems.reduce((i, n) => i + n.quantity, 0);
     const totalPrice =
@@ -120,8 +100,6 @@ export class CartItemsProvider extends Component {
           addItemToCart,
           quantity,
           totalPrice,
-          changeAttribute,
-          attrValue,
         }}
       >
         {this.props.children}

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import CartItemsContext from "../../contexts/cart-items.context";
 import { CurrenciesConsumer } from "../../contexts/currencies.context";
 
-import './cart-dropdown-content.styles.scss';
+import "./cart-dropdown-content.styles.scss";
 
 class DropdownContent extends Component {
   static contextType = CartItemsContext;
@@ -36,8 +36,6 @@ class DropdownContent extends Component {
       reduceItem,
       totalItems,
       totalPrice,
-      attrValue,
-      changeAttribute,
     } = this.context;
     return (
       <CurrenciesConsumer>
@@ -55,15 +53,19 @@ class DropdownContent extends Component {
                   </h3>
                   <div className="mini-cart-items">
                     {cartItems.map(
-                      ({
-                        id,
-                        name,
-                        prices,
-                        quantity,
-                        gallery,
-                        attributes,
-                      }) => (
-                        <div key={id} className="mini-cart-item">
+                      (
+                        {
+                          id,
+                          name,
+                          prices,
+                          quantity,
+                          gallery,
+                          attributes,
+                          values,
+                        },
+                        i
+                      ) => (
+                        <div key={i} className="mini-cart-item">
                           <div className="mini-cart-item-box-1">
                             <h4>{name}</h4>
                             <h4 className="attribute-title">Price:</h4>
@@ -71,7 +73,6 @@ class DropdownContent extends Component {
                               {currencies[index].symbol}
                               {prices[index].amount}
                             </p>
-
                             {attributes.map((item) => (
                               <Fragment key={item.id}>
                                 <h4 className="attribute-title">{item.name}</h4>
@@ -80,16 +81,13 @@ class DropdownContent extends Component {
                                     key={attr.id}
                                     className={
                                       item.type === "text"
-                                        ? attr.id === attrValue(id, item.id)
+                                        ? attr.id === values[item.id]
                                           ? "button-selected"
                                           : "button-non"
-                                        : attr.id === attrValue(id, item.id)
+                                        : attr.id === values[item.id]
                                         ? "swatch-selected"
                                         : "swatch-non"
                                     }
-                                    onClick={() => {
-                                      changeAttribute(id, item.id, attr);
-                                    }}
                                     style={{
                                       backgroundColor: attr.value,
                                     }}
@@ -103,9 +101,13 @@ class DropdownContent extends Component {
                           </div>
                           <div className="mini-cart-item-box-2">
                             <div className="mini-cart-item-amount">
-                              <button onClick={() => addItem(id)}>+</button>
+                              <button onClick={() => addItem(id, values)}>
+                                +
+                              </button>
                               <p>{quantity}</p>
-                              <button onClick={() => reduceItem(id)}>-</button>
+                              <button onClick={() => reduceItem(id, values)}>
+                                -
+                              </button>
                             </div>
                             <img src={gallery[0]} alt="product" />
                           </div>
